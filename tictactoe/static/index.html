@@ -1,5 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>Circles &amp; Crosses</title></head>
-<body><h1>Circles &amp; Crosses</h1></body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circles &amp; Crosses</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Circles &amp; Crosses</h1>
+
+    <div class="controls">
+      <select id="mode-toggle">
+        <option value="2p">2 Players</option>
+        <option value="ai">vs AI</option>
+      </select>
+      <div id="difficulty-wrap" class="hidden">
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="status">✕'s turn</div>
+
+    <div id="board">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+
+    <button id="reset-btn">Reset</button>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
 </html>

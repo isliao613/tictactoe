@@ -1,0 +1,113 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #1a1a1a;
+  --border: #333;
+  --x-color: #00e5ff;
+  --o-color: #bf00ff;
+  --text: #e0e0e0;
+  --muted: #666;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+h1 {
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+select:focus { outline: none; border-color: var(--x-color); }
+
+.hidden { display: none; }
+
+#status {
+  font-size: 1.1rem;
+  color: var(--muted);
+  min-height: 1.5em;
+  text-align: center;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 6px;
+}
+
+.cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+}
+
+.cell:hover:not(.taken) { background: #242424; }
+.cell.taken { cursor: default; }
+.cell.x { color: var(--x-color); text-shadow: 0 0 12px var(--x-color); }
+.cell.o { color: var(--o-color); text-shadow: 0 0 12px var(--o-color); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.cell.winner { animation: pulse 0.8s ease-in-out infinite; }
+
+#reset-btn {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+#reset-btn:hover { border-color: var(--x-color); }
+
+@keyframes reset-pulse {
+  0%, 100% { border-color: var(--border); }
+  50% { border-color: var(--o-color); }
+}
+
+#reset-btn.pulse { animation: reset-pulse 1s ease-in-out infinite; }
