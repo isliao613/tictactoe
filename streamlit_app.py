@@ -20,6 +20,31 @@ def init_state():
 if "board" not in st.session_state:
     init_state()
 
+st.markdown(
+    """
+    <style>
+    /* keep the 3-column board as a real grid even on narrow screens */
+    div[data-testid="stHorizontalBlock"] {
+        flex-wrap: nowrap !important;
+        gap: 0.5rem !important;
+    }
+    div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+        min-width: 0 !important;
+        width: calc((100% - 1rem) / 3) !important;
+        flex: 1 1 0 !important;
+    }
+    /* square cells with a large centered mark */
+    div[data-testid="stColumn"] div.stButton > button {
+        aspect-ratio: 1 / 1;
+        height: auto;
+        font-size: 2.2rem;
+        line-height: 1;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 st.title("🎮 Tic Tac Toe")
 
 with st.sidebar:
