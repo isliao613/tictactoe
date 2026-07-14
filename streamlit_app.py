@@ -1,0 +1,74 @@
+import pathlib
+import sys
+
+import streamlit as st
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent / "tictactoe"))
+from game import ai_move, apply_move, check_winner
+
+st.set_page_config(page_title="Tic Tac Toe", page_icon="🎮", layout="centered")
+
+MARKS = {"X": "❌", "O": "⭕", None: ""}
+
+
+def init_state():
+    st.session_state.board = [None] * 9
+    st.session_state.current = "X"
+    st.session_state.winner = None
+
+
+if "board" not in st.session_state:
+    init_state()
+
+st.title("🎮 Tic Tac Toe")
+
+with st.sidebar:
+    st.header("設定")
+    mode = st.radio("模式", ["ai", "pvp"], format_func=lambda m: "單人 (vs AI)" if m == "ai" else "雙人對戰")
+    difficulty = "easy"
+    if mode == "ai":
+        difficulty = st.radio("難度", ["easy", "hard"], index=1, format_func=lambda d: "簡單" if d == "easy" else "困難")
+    if st.button("🔄 重新開始", use_container_width=True):
+        init_state()
+        st.rerun()
+
+
+def play(cell: int):
+    board = st.session_state.board
+    player = st.session_state.current
+    board = apply_move(board, cell, player)
+    winner = check_winner(board)
+
+    if winner is None and mode == "ai":
+        ai_player = "O" if player == "X" else "X"
+        board = apply_move(board, ai_move(board, ai_player, difficulty), ai_player)
+        winner = check_winner(board)
+    elif winner is None:
+        st.session_state.current = "O" if player == "X" else "X"
+
+    st.session_state.board = board
+    st.session_state.winner = winner
+
+
+winner = st.session_state.winner
+if winner == "draw":
+    st.info("🤝 平手！")
+elif winner:
+    st.success(f"🏆 {MARKS[winner]} {winner} 獲勝！")
+else:
+    turn = st.session_state.current
+    st.caption(f"輪到 {MARKS[turn]} {turn}" + ("（你）" if mode == "ai" else ""))
+
+for row in range(3):
+    cols = st.columns(3, gap="small")
+    for col in range(3):
+        cell = row * 3 + col
+        mark = st.session_state.board[cell]
+        cols[col].button(
+            MARKS[mark] or " ",
+            key=f"cell-{cell}",
+            use_container_width=True,
+            disabled=mark is not None or winner is not None,
+            on_click=play,
+            args=(cell,),
+        )
