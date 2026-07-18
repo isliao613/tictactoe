@@ -51,7 +51,7 @@ st.markdown(
         aspect-ratio: 1 / 1;
         height: auto;
         width: 100%;
-        max-width: 20vh;
+        max-width: 18vh;
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -112,6 +112,15 @@ elif winner:
 else:
     turn = st.session_state.current
     st.caption(f"輪到 {MARKS[turn]} {turn}" + ("（你）" if mode == "ai" else ""))
+
+if winner:
+    st.button(
+        "🔄 再玩一次！",
+        key="restart-main",
+        type="primary",
+        use_container_width=True,
+        on_click=init_state,
+    )
 
 for row in range(3):
     cols = st.columns(3, gap="small")
