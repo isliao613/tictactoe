@@ -31,6 +31,10 @@ if "board" not in st.session_state:
 st.markdown(
     """
     <style>
+    /* trim the default top padding so the board has more vertical room */
+    div[data-testid="stMainBlockContainer"] {
+        padding-top: 2.5rem;
+    }
     /* keep the 3-column board as a real grid even on narrow screens */
     div[data-testid="stHorizontalBlock"] {
         flex-wrap: nowrap !important;
@@ -41,11 +45,17 @@ st.markdown(
         width: calc((100% - 1rem) / 3) !important;
         flex: 1 1 0 !important;
     }
-    /* square cells with a large centered mark */
+    /* square cells with a large centered mark; cap size by viewport height
+       so the 3x3 board never overflows (e.g. tablet in landscape) */
     div[data-testid="stColumn"] div.stButton > button {
         aspect-ratio: 1 / 1;
         height: auto;
-        font-size: 2.2rem;
+        width: 100%;
+        max-width: 20vh;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: clamp(1.4rem, 9vh, 2.6rem);
         line-height: 1;
     }
     </style>
